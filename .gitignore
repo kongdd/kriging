@@ -1,0 +1,9 @@
+.Rhistory
+.RData
+.Rproj.user
+
+data-raw/*.mat
+*.pdf
+*.tif
+*.xml
+*.zip
