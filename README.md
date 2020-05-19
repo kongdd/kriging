@@ -12,8 +12,9 @@ cellsize = 0.25
 range = c(91.5, 92.5, 31, 32)
 ```
 
-对于voronoi算法，我希望程序是输入台站位置，观测数据，以及网格的边界（网格大小是可以调的），输出是网格的插值结果，也就是加权平均的结果。
-对于block kriging，应该是确定插值区域和分辨率，得到一个插值结果，分辨率可以调，目前需要2种，0.0625度和0.25度。
+<!-- 对于voronoi算法，我希望程序是输入台站位置，观测数据，以及网格的边界（网格大小是可以调的），输出是网格的插值结果，也就是加权平均的结果。
+
+对于block kriging，应该是确定插值区域和分辨率，得到一个插值结果，分辨率可以调，目前需要2种，0.0625度和0.25度。 -->
 
 
 ## 1. Installation
@@ -39,6 +40,7 @@ devtools::install_github(kongdd/Ipaper)
 - blockKrige
 
 blockKrige使用的gstat完成，每个block再划分为四个网格，通过这四个网格krige插值得到该block的值。
+
 block划分为几个网格，通过`sps.args`参数控制：
 
 ```r
@@ -58,4 +60,5 @@ ans <- predict(g, newdata = blocks, debug.level = 0,
 ## 3. How to run this scripts?
 
 (1) 双击`kriging.Rproj`打开项目
+
 (2) 打开`test/02_kriging_interp.R`，运行程序
