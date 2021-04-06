@@ -17,6 +17,7 @@ fit_kriging_vgm <- function(s, range = NULL, show) {
   formula <- as.formula(sprintf("%s ~ 1", names(s)))
   vgm     <- variogram(formula, s)  # calculates sample variogram values 
   
+  # browser()
   if (is.null(range)) range = vgm$dist %>% max() %>% divide_by(2)
   # init vgm parameters
   nugget = vgm$gamma %>% head() %>% mean()
@@ -24,11 +25,11 @@ fit_kriging_vgm <- function(s, range = NULL, show) {
   str_model = "Exp"
 
   vgm.fit <- tryCatch({
-    fit.variogram(vgm, model = vgm(psill, "Exp", range = range, nugget = nugget)) # fit model
-  }, warning = function(w) {
+    fit.variogram(vgm, model = vgm(psill, "Gau", range = range, nugget = nugget)) # fit model
+  } , warning = function(w) {
     # warning means `Exp` fail to converge
     str_model <<- "Nug"
-    fit.variogram(vgm, model = vgm(psill, "Lin", range = 0, nugget = nugget)) # fit model
+    fit.variogram(vgm, model = vgm(psill, "Lin", range = range, nugget = nugget)) # fit model
     # fit.variogram(vgm, model=vgm(A, "Lin", range = 0,  nugget = nugget/2)) # fit model
   })
   
@@ -51,7 +52,14 @@ fit_kriging_vgm <- function(s, range = NULL, show) {
         plot.margin = c(1, 1, 1, 1) * 1,
         axis.margin = c(0.5, 1.5, 1, 1.5) * 0.5
       )
+    # print(p)
     ans$plot = as.grob(p)
   }
   return(ans)  
+}
+
+get_VGMdata <- function(s) {
+  formula <- as.formula(sprintf("%s ~ 1", names(s)))
+  vgm     <- variogram(formula, s)  # calculates sample variogram values 
+  vgm
 }
